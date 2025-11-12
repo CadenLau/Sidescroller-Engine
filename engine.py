@@ -249,6 +249,8 @@ class GameView(arcade.View):
         self.player.center_x = arcade.math.clamp(
             self.player.center_x, self.left_edge, self.right_edge
         )
+        if self.player.center_y < -self.player.height / 2:
+            self.player.position = self.player.start_x, self.player.start_y
 
         # check for falling
         if (
