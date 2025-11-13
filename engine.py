@@ -1,6 +1,7 @@
 import os
 import arcade
 import random
+import view
 
 bg_star_color = (255, 255, 255, 95)
 fg_star_color = [
@@ -222,7 +223,7 @@ class GameView(arcade.View):
         self.camera = arcade.Camera2D()
         self.camera_bounds = arcade.LRBT(
             self.window.width / 2.0,
-            3.0 * self.window.width / 2.0,
+            self.level_width - self.window.width / 2.0,
             self.window.height / 2.0,
             self.window.height / 2.0,
         )
@@ -251,6 +252,8 @@ class GameView(arcade.View):
         )
         if self.player.center_y < -self.player.height / 2:
             self.player.position = self.player.start_x, self.player.start_y
+            self.player.change_x = 0
+            self.player.change_y = 0
 
         # check for falling
         if (
@@ -314,6 +317,9 @@ class GameView(arcade.View):
         )
 
     def on_key_press(self, symbol, modifiers) -> None:
+        if symbol == arcade.key.ESCAPE:
+            if view.maker_view != None:
+                self.window.show_view(view.maker_view)
         self.player.on_key_press(symbol, self.physics_engine)
 
     def on_key_release(self, symbol, modifiers) -> None:
